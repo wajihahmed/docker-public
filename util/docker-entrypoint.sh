@@ -4,8 +4,6 @@
 #
 
 set -x
-DIR=`pwd`
-
 
 command=$1
 
@@ -19,37 +17,6 @@ pause() {
         sleep 1000000
     done
 }
-
-
-
-
-copy_secrets() {
-    echo "Copying secrets"
-    mkdir -p "${OPENAM_HOME}/openam"
-    cp  -L /var/run/secrets/openam/.keypass "${OPENAM_HOME}/openam"
-    cp  -L /var/run/secrets/openam/.storepass "${OPENAM_HOME}/openam"
-    cp  -L /var/run/secrets/openam/keystore.jceks "${OPENAM_HOME}/openam"
-    cp  -L /var/run/secrets/openam/keystore.jks "${OPENAM_HOME}/openam"
-    cp  -L /var/run/secrets/openam/authorized_keys "$OPENAM_HOME"
-}
-
-
-run() {
-   if [ -x "${CUSTOMIZE_AM}" ]; then
-        echo "Executing AM customization script"
-        sh "${CUSTOMIZE_AM}"
-   else
-        echo "No AM customization script found, so no customizations will be performed"
-   fi
-
-    cd "${CATALINA_HOME}"
-    exec "${CATALINA_HOME}/bin/catalina.sh" run
-}
-
-
-# Pre-create our keystores for AM.
-#copy_secrets
-
 
 # The default command is "run" - which assumes an external configuration store. If
 # you want AM to come up without waiting for a configuration store, use run-nowait.
