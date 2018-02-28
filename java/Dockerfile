@@ -17,9 +17,9 @@ RUN apk add --no-cache su-exec unzip curl bash bind-tools iputils \
     && apk del --no-cache bind \
     && mkdir -p "${FORGEROCK_HOME}" \
     && addgroup -g 11111 forgerock \
-    && adduser -s /bin/bash -h  "${FORGEROCK_HOME}" -u 11111 -D -G forgerock forgerock \
-    && chown -R forgerock /opt \
-    && chmod -R 0750 "${FORGEROCK_HOME}" \
+    && adduser -s /bin/bash -h  "${FORGEROCK_HOME}" -u 11111 -D -G root forgerock \
+    && chown -R forgerock:root /opt \
+    && chmod -R 0770 "${FORGEROCK_HOME}" \
     && find / -perm +6000 -type f -exec chmod a-s {} \; || true
 
 
